@@ -1,13 +1,15 @@
-const express = require('express')
-const parseurl = require('parseurl')
-const session = require('express-session')
+const express = require('express');
+const parseurl = require('parseurl');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
  
 const app = express()
  
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store:new FileStore()
 }))
  
 app.get('/', function (req, res, next) {
