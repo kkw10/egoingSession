@@ -7,6 +7,11 @@ const sanitizeHtml = require('sanitize-html');
 const auth = require('../lib/auth');
 
 router.get('/create', (req, res) => {
+    if(!auth.isOwner(req, res)) {
+      res.redirect('/');
+      return false;
+    }
+
     let title = 'WEB - create';
     let list = template.list(req.list);
     let html = template.HTML(title, list, `
@@ -24,6 +29,11 @@ router.get('/create', (req, res) => {
   })
   
   router.post('/create_process', (req, res) => {
+    if(!auth.isOwner(req, res)) {
+      res.redirect('/');
+      return false;
+    }
+
     let post = req.body;
     let title = post.title;
     let description = post.description;
@@ -33,6 +43,11 @@ router.get('/create', (req, res) => {
   })
   
   router.get('/update/:pageID', (req, res) => {
+    if(!auth.isOwner(req, res)) {
+      res.redirect('/');
+      return false;
+    }
+
     let filteredId = path.parse(req.params.pageID).base;
     fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
       let title = req.params.pageID;
@@ -58,6 +73,11 @@ router.get('/create', (req, res) => {
   })
   
   router.post('/update_process', (req, res) => {
+    if(!auth.isOwner(req, res)) {
+      res.redirect('/');
+      return false;
+    }
+
     let post = req.body;
     let id = post.id;
     let title = post.title;
@@ -70,6 +90,11 @@ router.get('/create', (req, res) => {
   })
   
   router.post('/delete_process', (req, res) => {
+    if(!auth.isOwner(req, res)) {
+      res.redirect('/');
+      return false;
+    }
+    
     let post = req.body;
     let id = post.id;
     let filteredId = path.parse(id).base;
