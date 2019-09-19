@@ -5,6 +5,12 @@ const template = require('../lib/template');
 const path = require('path');
 const sanitizeHtml = require('sanitize-html');
 
+const authData = {
+  email: 'test123@gmail.com',
+  password: '123',
+  nickname: 'tester'
+}
+
 router.get('/login', (req, res) => {
   let title = 'WEB - login';
   let list = template.list(req.list);
@@ -20,31 +26,21 @@ router.get('/login', (req, res) => {
   res.send(html);
 })
 
-// router.get('/create', (req, res) => {
-//     let title = 'WEB - create';
-//     let list = template.list(req.list);
-//     let html = template.HTML(title, list, `
-//       <form action="/topic/create_process" method="post">
-//         <p><input type="text" name="title" placeholder="title"></p>
-//         <p>
-//           <textarea name="description" placeholder="description"></textarea>
-//         </p>
-//         <p>
-//           <input type="submit">
-//         </p>
-//       </form>
-//     `, '');
-//     res.send(html);
-//   })
+router.post('/login_process', (req, res) => {
+  let post = req.body;
+  let email = post.email;
+  let password = post.pwd;
   
-//   router.post('/create_process', (req, res) => {
-//     let post = req.body;
-//     let title = post.title;
-//     let description = post.description;
-//     fs.writeFile(`data/${title}`, description, 'utf8', function(err){
-//       res.redirect(`/topic/${title}`)
-//     })  
-//   })
+  if(email === authData.email && password === authData.password) {
+    res.send('Welcome!');
+  } else {
+    res.send("Who are you?")
+  }
+
+  //res.redirect(`/topic/${title}`)  
+})
+  
+
   
 //   router.get('/update/:pageID', (req, res) => {
 //     let filteredId = path.parse(req.params.pageID).base;
