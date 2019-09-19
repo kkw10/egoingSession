@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const indexRouter= require('./routes/index');
 const topicRouter = require('./routes/topic');
+const authRouter = require('./routes/auth');
 const helmet = require('helmet');
 
 // middle
@@ -24,6 +25,7 @@ app.get('*', (req, res, next) => {
 // routing
 app.use('/', indexRouter)
 app.use('/topic', topicRouter)
+app.use('/auth', authRouter)
 
 // error
 app.use((req, res, next) => {
