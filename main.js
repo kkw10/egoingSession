@@ -7,12 +7,20 @@ const indexRouter= require('./routes/index');
 const topicRouter = require('./routes/topic');
 const authRouter = require('./routes/auth');
 const helmet = require('helmet');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 // middle
 app.use(helmet());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());
+app.use(session({
+  secret: 'test123',
+  resave: false,
+  saveUninitialized: true,
+  store: new FileStore()
+}))
 
 // coustom middle
 app.get('*', (req, res, next) => {
